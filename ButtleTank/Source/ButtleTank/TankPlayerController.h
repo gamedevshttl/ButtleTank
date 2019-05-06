@@ -16,6 +16,8 @@ class BUTTLETANK_API ATankPlayerController : public APlayerController
 
 public:
 
+	virtual void BeginPlay() override;
+
 	class ATank* GetControlledTank() const;
 	
 };
