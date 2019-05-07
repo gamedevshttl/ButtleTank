@@ -8,9 +8,7 @@ void ATankPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	if (GetControlledTank())
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController possessed %s"), *GetControlledTank()->GetName());
-
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
+		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController possessed %s"), *GetControlledTank()->GetName());	
 }
 
 ATank* ATankPlayerController::GetControlledTank() const

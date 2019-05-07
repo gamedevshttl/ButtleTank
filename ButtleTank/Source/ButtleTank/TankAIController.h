@@ -13,6 +13,8 @@ UCLASS()
 class BUTTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
-public:
+protected:
 	virtual void BeginPlay() override;
+
+	class ATank* GetPlayerTank() const;
 };
