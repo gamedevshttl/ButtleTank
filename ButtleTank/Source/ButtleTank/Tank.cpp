@@ -58,7 +58,9 @@ void ATank::SetTurretReference(UTankTurret* TurretToSet)
 
 void ATank::Fire()
 {
-	if (!Barrel)
+	bool IsReload = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+
+	if (!Barrel || !IsReload)
 		return;
 
 	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
@@ -68,5 +70,7 @@ void ATank::Fire()
 
 	if(Projectile)
 		Projectile->LaunchProjectile(LaunchSpeed);
+
+	LastFireTime = FPlatformTime::Seconds();
 }
 
