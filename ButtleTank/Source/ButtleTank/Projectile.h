@@ -23,4 +23,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void LaunchProjectile(float Spped);
+
+private:
+	class UProjectileMovementComponent* Movement = nullptr;
 };
