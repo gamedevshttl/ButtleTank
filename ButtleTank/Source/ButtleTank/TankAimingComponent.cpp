@@ -52,12 +52,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	{
 		auto AimDirection = OutLauchVelocity.GetSafeNormal();
 		MoveAim(AimDirection);
-
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation %s"), *HitLocation.ToString());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("no aim"));
 	}
 }
 
@@ -66,8 +60,6 @@ void UTankAimingComponent::MoveAim(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
-
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *DeltaRotator.ToString());
 
 	Barrel->Elevate(DeltaRotator.Pitch);
 	Turret->Rotate(DeltaRotator.Yaw);

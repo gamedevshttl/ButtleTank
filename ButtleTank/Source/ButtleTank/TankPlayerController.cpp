@@ -7,9 +7,6 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if (GetControlledTank())
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController possessed %s"), *GetControlledTank()->GetName());	
 }
 
 ATank* ATankPlayerController::GetControlledTank() const
@@ -29,11 +26,8 @@ void ATankPlayerController::AimTowardCrosshair()
 		return;
 
 	FVector HitLocation;
-	if (GetSightRayHitLocation(HitLocation)) {
-		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
-
+	if (GetSightRayHitLocation(HitLocation))
 		GetControlledTank()->AimAt(HitLocation);
-	}
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
