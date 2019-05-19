@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright EmbraceIT Lmd.
 
 
 #include "TankMovementComponent.h"
@@ -14,8 +14,7 @@ void UTankMovementComponent::Initialize(UTankTrack* LeftTrackToSet, UTankTrack* 
 }
 
 void UTankMovementComponent::IntendMoveForvard(float Throw)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Throw %f"), Throw);
+{	
 	if (LeftTrack)
 		LeftTrack->SetThrottle(Throw);
 
