@@ -30,10 +30,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void AimAt(FVector HitLocation);
+
 	UFUNCTION(BlueprintCallable, Category = Firing)
 	void Fire();
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
+	class UTankAimingComponent* TankAimingComponent = nullptr;
+
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 4000;
 

@@ -20,9 +20,6 @@ class BUTTLETANK_API ATankPlayerController : public APlayerController
 protected:
 	virtual void BeginPlay() override;
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	class ATank* GetControlledTank() const;
-			  
 	UFUNCTION(BlueprintImplementableEvent, Category = Setup)
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
