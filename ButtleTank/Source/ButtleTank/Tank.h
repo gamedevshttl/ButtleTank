@@ -6,10 +6,6 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class UTankBarrel;
-class UTankTurret;
-class AProjectile;
-
 UCLASS()
 class BUTTLETANK_API ATank : public APawn
 {
@@ -29,19 +25,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION(BlueprintCallable, Category = Firing)
-	void Fire();
-
-protected:
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float LaunchSpeed = 4000;
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf< AProjectile> ProjectileBlueprint;
-
-	UTankBarrel* Barrel = nullptr;
-
-	float ReloadTimeInSeconds = 3.0f;
-	double LastFireTime = 0.0;
 };
