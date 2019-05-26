@@ -14,14 +14,22 @@ class BUTTLETANK_API UTankTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 private:
-	UTankTrack();
-
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	UTankTrack();	
+	void ApplysidewayForce();
 public:
+	virtual void BeginPlay() override;
+private:
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+public:
+
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetThrottle(float Throttle);
 
+	void DriveTrack();
+
 	UPROPERTY(EditDefaultsOnly)
 	float TrackMaxDrivingForce = 400000.0f;
+
+	float CurentTrottle = 0.0f;
 };

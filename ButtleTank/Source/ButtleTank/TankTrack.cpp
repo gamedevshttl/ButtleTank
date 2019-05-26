@@ -5,12 +5,13 @@
 
 UTankTrack::UTankTrack()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UTankTrack::ApplysidewayForce()
 {
 	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
+	auto DeltaTime = GetWorld()->GetDeltaSeconds();
 	auto CorrectAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();
 
 	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
@@ -18,11 +19,29 @@ void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 		TankRoot->AddForce(CorrectAcceleration);
 }
 
+void UTankTrack::BeginPlay()
+{
+	Super::BeginPlay();
+
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
+}
+
+void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	DriveTrack();
+	ApplysidewayForce();
+	CurentTrottle = 0.0f;
+}
+
 void UTankTrack::SetThrottle(float Throttle)
-{	
-	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
+{		
+	CurentTrottle = FMath::Clamp<float>(CurentTrottle + Throttle, -1.0, 1.0);
+}
+
+void UTankTrack::DriveTrack()
+{
+	auto ForceApplied = GetForwardVector() * CurentTrottle * TrackMaxDrivingForce;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
-	
 }
