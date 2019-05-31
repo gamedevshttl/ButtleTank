@@ -44,6 +44,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Firing)
 	void Fire();
 
+	EFiringState GetFiringState() const;
+
 private:
 	bool IsBarrelMoving();
 	void MoveAim(FVector AimDirection);	

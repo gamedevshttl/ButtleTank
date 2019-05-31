@@ -49,5 +49,5 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	IntendMoveForvard(ForwardThrow);
 
 	auto RigthThrow = FVector::CrossProduct(TankForward, AIForwardDirection).Z;
-	IntendTurnRight(RigthThrow);
+	IntendTurnRight(2.0f * RigthThrow);
 }
