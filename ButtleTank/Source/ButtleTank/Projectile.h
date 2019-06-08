@@ -20,10 +20,11 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 	void LaunchProjectile(float Spped);
+
+private:
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 private:
 	class UProjectileMovementComponent* Movement = nullptr;
@@ -33,4 +34,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Components)
 	class UParticleSystemComponent* LaunchBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = Components)
+	class UParticleSystemComponent* ImpactBlast = nullptr;	
 };
