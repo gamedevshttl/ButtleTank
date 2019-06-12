@@ -28,6 +28,8 @@ public:
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintPure, Category = Health)
+	float GetHealthPersent() const;
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	int32 StartingHealth = 100;
