@@ -16,6 +16,12 @@ class BUTTLETANK_API ATankAIController : public AAIController
 
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
