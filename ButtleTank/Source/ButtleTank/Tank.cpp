@@ -12,7 +12,9 @@ ATank::ATank()
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
-	Super::BeginPlay();		
+	Super::BeginPlay();
+
+	CurrentHealth = StartingHealth;
 }
 
 // Called every frame

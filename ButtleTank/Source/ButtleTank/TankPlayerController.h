@@ -24,6 +24,11 @@ protected:
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
 public:
+	void SetPawn(APawn* InPawn);
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
 	virtual void Tick(float DeltaSeconds) override;
 
 	void AimTowardCrosshair();
