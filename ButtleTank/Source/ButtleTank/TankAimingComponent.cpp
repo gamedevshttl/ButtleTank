@@ -82,12 +82,12 @@ bool UTankAimingComponent::IsBarrelMoving()
 	return !AimDirection.Equals(Barrel->GetForwardVector(), 0.05f);
 }
 
-void UTankAimingComponent::MoveAim(FVector AimDirection)
+void UTankAimingComponent::MoveAim(FVector TargetAimDirection)
 {
 	if (!ensure(Barrel) || !ensure(Turret))
 		return;
 
-	auto AimAsRotator = AimDirection.Rotation();
+	auto AimAsRotator = TargetAimDirection.Rotation();
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
