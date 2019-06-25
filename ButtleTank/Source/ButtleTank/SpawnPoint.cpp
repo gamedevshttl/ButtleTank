@@ -22,12 +22,12 @@ void USpawnPoint::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto SprungWheelItem = GetWorld()->SpawnActorDeferred<ASprungWheel>(SpawnSprungWheel, GetComponentTransform());
-	if (!SprungWheelItem)
+	SpawnedActor = GetWorld()->SpawnActorDeferred<AActor>(SpawnSprungWheel, GetComponentTransform());
+	if (!SpawnedActor)
 		return;
 
-	SprungWheelItem->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
-	UGameplayStatics::FinishSpawningActor(SprungWheelItem, GetComponentTransform());
+	SpawnedActor->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
+	UGameplayStatics::FinishSpawningActor(SpawnedActor, GetComponentTransform());
 }
 
 

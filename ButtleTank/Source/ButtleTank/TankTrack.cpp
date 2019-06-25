@@ -2,46 +2,54 @@
 
 
 #include "TankTrack.h"
+#include "SprungWheel.h"
+#include "SpawnPoint.h"
 
 UTankTrack::UTankTrack()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UTankTrack::ApplysidewayForce()
-{
-	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
-	auto DeltaTime = GetWorld()->GetDeltaSeconds();
-	auto CorrectAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();
-
-	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
-	if (TankRoot)
-		TankRoot->AddForce(CorrectAcceleration);
-}
-
 void UTankTrack::BeginPlay()
 {
 	Super::BeginPlay();
-
-	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
-}
-
-void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
-{
-	DriveTrack();
-	ApplysidewayForce();
-	CurentTrottle = 0.0f;
 }
 
 void UTankTrack::SetThrottle(float Throttle)
 {		
-	CurentTrottle = FMath::Clamp<float>(CurentTrottle + Throttle, -2.0, 2.0);
+	float CurentTrottle = FMath::Clamp<float>(Throttle, -2.0, 2.0);
+	DriveTrack(CurentTrottle);
 }
 
-void UTankTrack::DriveTrack()
+void UTankTrack::DriveTrack(float CurentTrottle)
 {
-	auto ForceApplied = GetForwardVector() * CurentTrottle * TrackMaxDrivingForce;
-	auto ForceLocation = GetComponentLocation();
-	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
+	auto ForceApplied = CurentTrottle * TrackMaxDrivingForce;
+	auto Wheels = GetWheels();
+	float ForceMagnitude = ForceApplied / Wheels.Num();
+
+	for (auto Wheel : Wheels) {
+		Wheel->AddDrivingForce(ForceMagnitude);
+	}
+}
+
+TArray<ASprungWheel*> UTankTrack::GetWheels() const
+{
+	TArray<ASprungWheel*> Wheels;
+
+	TArray<USceneComponent*> Children;
+	GetChildrenComponents(true, Children);
+
+	for (auto Child : Children) {
+		auto SpawnPointItem = Cast<USpawnPoint>(Child);
+		if (!SpawnPointItem)
+			continue;
+
+		auto Wheel = Cast<ASprungWheel>(SpawnPointItem->GetSpawnedActor());
+		if (!Wheel)
+			continue;
+
+		Wheels.Add(Wheel);
+	}
+
+	return Wheels;
 }
